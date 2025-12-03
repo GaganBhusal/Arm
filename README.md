@@ -1,12 +1,19 @@
-# MuJoCo Robot Arm + Wrist Camera
+<table>
+<tr>
+    <td>
+    <b>3D Model View</b><br>
+    <img src="Images/model.png"/>
+    </td>
+    <td>
+    <b>Camera Feed</b><br>
+    <img src="Images/cam.png" width="500"/>
+    </td>
+</tr>
+</table>
 
-<img src="Images/model.png" width="48%" />
-<img src="Images/cam.png" width="48%" />
 
-Left: 3D view  Right: egocentric camera feed (`hand_cam`)
+## To run
 
-Camera uses `mode="trackcom"` → always looks forward, never flips, even after full 180°/360° arm rotation.
-
-Run:
 ```bash
+pip install -r requirements.txt
 python arm.py
