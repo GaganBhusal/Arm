@@ -1,25 +1,75 @@
 <mujoco model="2dof_arm">
-  <compiler angle="degree"/>
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
   <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4" iterations="50"/>
+  
+<default>
+    <default class="panda">
+      <material specular="0.5" shininess="0.25"/>
+      <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973"/>
+      <general dyntype="none" biastype="affine" ctrlrange="-2.8973 2.8973" forcerange="-87 87"/>
+      <default class="finger">
+        <joint axis="0 1 0" type="slide" range="0 0.04"/>
+      </default>
+
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom type="mesh" group="3"/>
+        <default class="fingertip_pad_collision_1">
+          <geom type="box" size="0.0085 0.004 0.0085" pos="0 0.0055 0.0445"/>
+        </default>
+        <default class="fingertip_pad_collision_2">
+          <geom type="box" size="0.003 0.002 0.003" pos="0.0055 0.002 0.05"/>
+        </default>
+        <default class="fingertip_pad_collision_3">
+          <geom type="box" size="0.003 0.002 0.003" pos="-0.0055 0.002 0.05"/>
+        </default>
+        <default class="fingertip_pad_collision_4">
+          <geom type="box" size="0.003 0.002 0.0035" pos="0.0055 0.002 0.0395"/>
+        </default>
+        <default class="fingertip_pad_collision_5">
+          <geom type="box" size="0.003 0.002 0.0035" pos="-0.0055 0.002 0.0395"/>
+        </default>
+      </default>
+    </default>
+  </default>
   <asset>
+    <material class="panda" name="white" rgba="1 1 1 1"/>
+    <material class="panda" name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
+    <material class="panda" name="black" rgba="0.25 0.25 0.25 1"/>
+
+    <!-- Collision meshes -->
+    <mesh name="hand_c" file="hand.stl"/>
+
+    <!-- Visual meshes -->
+    <mesh file="hand_0.obj"/>
+    <mesh file="hand_1.obj"/>
+    <mesh file="hand_2.obj"/>
+    <mesh file="hand_3.obj"/>
+    <mesh file="hand_4.obj"/>
+    <mesh file="finger_0.obj"/>
+    <mesh file="finger_1.obj"/>
     <texture name="skybox" type="skybox" builtin="flat" rgb1="1 1 1" rgb2="0 0 0" width="512" height="512"/>
     <texture name="grid" type="2d" builtin="checker" rgb1=".15 .2 .25" rgb2=".25 .3 .35" width="300" height="300" mark="edge" markrgb=".3 .4 .5"/>
     <material name="grid_mat" texture="grid" texrepeat="2 2" texuniform="true" reflectance="0.2"/>
     
-    <material name="black_metal" rgba="0.15 0.18 0.2 1" specular="0.8" shininess="0.7" reflectance="0.5"/>
-    <material name="blue_metal" rgba="0.2 0.4 0.6 1" specular="0.9" shininess="0.8" reflectance="0.6"/>
-    <material name="dark_grey" rgba="0.25 0.28 0.3 1" specular="0.7" shininess="0.6" reflectance="0.4"/>
-    <material name="silver_metal" rgba="0.7 0.75 0.8 1" specular="0.95" shininess="0.9" reflectance="0.75"/>
-    <material name="steel_grey" rgba="0.5 0.55 0.6 1" specular="0.85" shininess="0.75" reflectance="0.6"/>
+    <material name="black_metal" rgba="0.901961 0.921569 0.929412 1" specular="0.8" shininess="0.7" reflectance="0.5"/>
+    <material name="blue_metal" rgba="0.901961 0.921569 0.929412 1" specular="0.9" shininess="0.8" reflectance="0.6"/>
+    <material name="dark_grey" rgba="0.901961 0.921569 0.929412 1" specular="0.7" shininess="0.6" reflectance="0.4"/>
+    <material name="silver_metal" rgba="0.901961 0.921569 0.929412 1" specular="0.95" shininess="0.9" reflectance="0.75"/>
+    <material name="steel_grey" rgba="0.901961 0.921569 0.929412 1" specular="0.85" shininess="0.75" reflectance="0.6"/>
   </asset>
   
   <worldbody>
     <light mode="fixed" pos="0 0 3" dir="0 0 -1" directional="true" diffuse="1 1 1" specular="0.5 0.5 0.5"/>
     <light pos="2 2 2" dir="-0.5 -0.5 -1" directional="true" diffuse="0.4 0.4 0.4"/>
-    
+
+
+  
     <geom name="floor" type="plane" size="2 2 0.02" material="grid_mat"/>
-    <body name="box" pos="0 0.5 0">
-      <geom name="box" type="box" size="0.03 0.03 0.03"/>
+    <body name="box" pos="0 0.3 0">
+      <geom name="box" type="box" size="0.02 0.02 0.02"/>
     </body>
     <body name="platform" pos="0 0 0">
       <geom name="platform_base" type="cylinder" size="0.15 0.03" material="dark_grey"/>
@@ -33,7 +83,7 @@
     </body>
     
     <body name="link1" pos="0 0 0.3">
-      <joint name="shoulder_yaw" type="hinge" axis="0 0 1" range="-180 180" damping="5"/>
+      <joint name="shoulder_yaw" type="hinge" axis="0 0 1" range="-3.14 3.14" damping="5"/>
       <joint name="shoulder_pitch" type="hinge" axis="0 1 0" range="-90 90" damping="5"/>
       <inertial pos="0.225 0 0" mass="2.5" diaginertia="0.15 0.15 0.15"/>
       
@@ -48,39 +98,68 @@
         <geom name="shoulder_joint2" type="sphere" size="0.04" material="blue_metal"/>
         <geom name="capsule2" type="capsule" fromto="0 0 0.03 0 0 0.5" size="0.04" material="steel_grey"/>
         
-        <body name="hand" pos="0 0 0.54">
-          <geom type="box" size="0.03 0.09 0.04" material="black_metal"/>
-          
-          <body name="right_gripper" pos="0 0.07 0.05">
-            <joint name="right" type="slide" axis="0 1 0" range="0 0.06"/>
-            <geom type="box" size="0.015 0.01 0.05" material="black_metal"/>
+      <body name="hand" pos = "0 0 0.5" quat="0 0 0 1">
+            <inertial mass="0.73" pos="-0.01 0 0.03" diaginertia="0.001 0.0025 0.0017"/>
+            <geom mesh="hand_0" material="off_white" class="visual"/>
+            <geom mesh="hand_1" material="black" class="visual"/>
+            <geom mesh="hand_2" material="black" class="visual"/>
+            <geom mesh="hand_3" material="white" class="visual"/>
+            <geom mesh="hand_4" material="off_white" class="visual"/>
+            <geom mesh="hand_c" class="collision"/>
+            <body name="left_finger" pos="0 0 0.0584">
+              <inertial mass="0.015" pos="0 0 0" diaginertia="2.375e-6 2.375e-6 7.5e-7"/>
+              <joint name="finger_joint1" class="finger"/>
+              <geom mesh="finger_0" material="off_white" class="visual"/>
+              <geom mesh="finger_1" material="black" class="visual"/>
+              <geom mesh="finger_0" class="collision"/>
+              <geom class="fingertip_pad_collision_1"/>
+              <geom class="fingertip_pad_collision_2"/>
+              <geom class="fingertip_pad_collision_3"/>
+              <geom class="fingertip_pad_collision_4"/>
+              <geom class="fingertip_pad_collision_5"/>
+            </body>
+            <body name="right_finger" pos="0 0 0.0584" quat="0 0 0 1">
+              <inertial mass="0.015" pos="0 0 0" diaginertia="2.375e-6 2.375e-6 7.5e-7"/>
+              <joint name="finger_joint2" class="finger"/>
+              <geom mesh="finger_0" material="off_white" class="visual"/>
+              <geom mesh="finger_1" material="black" class="visual"/>
+              <geom mesh="finger_0" class="collision"/>
+              <geom class="fingertip_pad_collision_1"/>
+              <geom class="fingertip_pad_collision_2"/>
+              <geom class="fingertip_pad_collision_3"/>
+              <geom class="fingertip_pad_collision_4"/>
+              <geom class="fingertip_pad_collision_5"/>
+            </body>
           </body>
-          
-          <body name="left_gripper" pos="0 -0.07 0.05">
-            <joint name="left" type="slide" axis="0 -1 0" range="0 0.06"/>
-            <geom type="box" size="0.015 0.01 0.05" material="black_metal"/>
-          </body>
-        </body>
       </body>
+          <camera name="hand_cam" pos="0 0 1.0" quat="1 0 0 0" mode="track" fovy="45" 
+        />
     </body>
   </worldbody>
-  
-  <equality>
-    <joint joint1="right" joint2="left"/>
-  </equality>
-  
+
+    <contact>
+    <exclude body1="hand" body2="left_finger"/>
+    <exclude body1="hand" body2="right_finger"/>
+  </contact>
+
   <tendon>
-    <fixed name="grasp">
-      <joint joint="right" coef="1"/>
-      <joint joint="left" coef="1"/>
+    <fixed name="split">
+      <joint joint="finger_joint1" coef="0.5"/>
+      <joint joint="finger_joint2" coef="0.5"/>
     </fixed>
   </tendon>
-  
+
+  <equality>
+    <joint joint1="finger_joint1" joint2="finger_joint2" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+  </equality>
+
+
   <actuator>
-    <motor name="shoulder_yaw" joint="shoulder_yaw" gear="50"/>
-    <motor name="shoulder_pitch" joint="shoulder_pitch" gear="50"/>
-    <motor name="shoulder_yaw2" joint="shoulder_yaw2" gear="50"/>
-    <motor name="shoulder_pitch2" joint="shoulder_pitch2" gear="50"/>
-    <position name="grasp" tendon="grasp" kp="200" ctrlrange="-1 0"/>
+    <position name="shoulder_yaw" joint="shoulder_yaw" forcelimited="true" kp="400" kv="40" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+    <position name="shoulder_pitch" joint="shoulder_pitch"  forcelimited="true" kp="400" kv="40" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+    <position name="shoulder_yaw2" joint="shoulder_yaw2" forcelimited="true" kp="400" kv="40" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+    <position name="shoulder_pitch2" joint="shoulder_pitch2" forcelimited="true" kp="400" kv="40" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+     <general class="panda" name="actuator8" tendon="split" forcerange="-100 100" ctrlrange="0 255"
+      gainprm="0.01568627451 0 0" biasprm="0 -100 -10"/>
   </actuator>
 </mujoco>
