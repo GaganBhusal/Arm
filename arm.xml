@@ -70,7 +70,7 @@
 <!-- <camera   pos="2.304 -0.733 2.261" xyaxes="0.085 0.996 0.000 -0.691 0.059 0.720"/> -->
 
     <geom name="floor" type="plane" size="2 2 0.02" material="grid_mat"/>
-    <body name="box" pos="0 0.3 0">
+    <body name="box" pos="0 -0.7 0">
       <geom name="box" type="box" size="0.02 0.02 0.02"/>
     </body>
     <body name="platform" pos="0 -1.5 0">
@@ -86,15 +86,15 @@
     
     <body name="link1" pos="0 -1.5  0.3">
       <joint name="shoulder_yaw" type="hinge" axis="0 0 1" range="-3.14 3.14" damping="5"/>
-      <joint name="shoulder_pitch" type="hinge" axis="0 1 0" range="-90 90" damping="5"/>
-      <inertial pos="0.225 0 0" mass="2.5" diaginertia="0.15 0.15 0.15"/>
+      <joint name="shoulder_pitch" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="5"/>
+      <inertial pos="0.25 0 0" mass="2.5" diaginertia="0.1 0.1 0.1"/>
       
       <geom name="shoulder_joint" type="sphere" size="0.04" material="blue_metal"/>
-      <geom name="capsule" type="capsule" fromto="0 0 0.04 0 0 0.4" size="0.04" material="black_metal"/>
+      <geom name="capsule" type="capsule" fromto="0 0 0.04 0 0 0.5" size="0.04" material="black_metal"/>
       
-      <body name="link2" pos="0 0 0.4">
-        <joint name="shoulder_yaw2" type="hinge" axis="0 0 1" range="-180 180" damping="5"/>
-        <joint name="shoulder_pitch2" type="hinge" axis="0 1 0" range="-120 120" damping="5"/>
+      <body name="link2" pos="0 0 0.5">
+        <joint name="shoulder_yaw2" type="hinge" axis="0 0 1" range="-3.14 3.14" damping="5"/>
+        <joint name="shoulder_pitch2" type="hinge" axis="0 1 0" range="-2.1 2.1" damping="5"/>
         <inertial pos="0.175 0 0" mass="1.8" diaginertia="0.08 0.08 0.08"/>
         
         <geom name="shoulder_joint2" type="sphere" size="0.04" material="blue_metal"/>
@@ -158,10 +158,10 @@
 
 
   <actuator>
-    <position name="shoulder_yaw" joint="shoulder_yaw" forcelimited="true" kp="400" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
-    <position name="shoulder_pitch" joint="shoulder_pitch"  forcelimited="true" kp="400" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
-    <position name="shoulder_yaw2" joint="shoulder_yaw2" forcelimited="true" kp="400" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
-    <position name="shoulder_pitch2" joint="shoulder_pitch2" forcelimited="true" kp="400" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+    <position name="shoulder_yaw" joint="shoulder_yaw" forcelimited="true" kp="200" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+    <position name="shoulder_pitch" joint="shoulder_pitch"  forcelimited="true" kp="20" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+    <position name="shoulder_yaw2" joint="shoulder_yaw2" forcelimited="true" kp="20" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
+    <position name="shoulder_pitch2" joint="shoulder_pitch2" forcelimited="true" kp="20" ctrlrange="-3.14 3.14" forcerange="-100 100"/>
      <general class="panda" name="actuator8" tendon="split" forcerange="-100 100" ctrlrange="0 255"
       gainprm="0.01568627451 0 0" biasprm="0 -100 -10"/>
   </actuator>
